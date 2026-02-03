@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #141922;
+            --bg-card: #1a202e;
+            --text-primary: #ffffff;
+            --text-secondary: #8b95a8;
+            --accent-green: #00d9a5;
+            --accent-red: #ff6b6b;
+            --accent-blue: #4e9fff;
+            --accent-purple: #a78bfa;
+            --border: #2a3344;
+            --glow: rgba(0, 217, 165, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            margin-bottom: 3rem;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #6fb7e9;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .kpi-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.75rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            animation: cardAppear 0.6s ease-out backwards;
+        }
+
+        .kpi-card:nth-child(1) { animation-delay: 0.1s; }
+        .kpi-card:nth-child(2) { animation-delay: 0.2s; }
+        .kpi-card:nth-child(3) { animation-delay: 0.3s; }
+        .kpi-card:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes cardAppear {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px) scale(0.95);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent-green), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .kpi-card:hover {
+            border-color: var(--accent-green);
+            box-shadow: 0 8px 32px var(--glow);
+            transform: translateY(-2px);
+        }
+
+        .kpi-card:hover::before {
+            opacity: 1;
+        }
+
+        .kpi-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+
+        .kpi-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .kpi-change {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            background: rgba(0, 217, 165, 0.1);
+            color: var(--accent-green);
+        }
+
+        .kpi-change.negative {
+            background: rgba(255, 107, 107, 0.1);
+            color: var(--accent-red);
+        }
+
+        .kpi-meta {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .charts-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            animation: cardAppear 0.8s ease-out backwards;
+        }
+
+        .chart-card:nth-child(1) { animation-delay: 0.5s; }
+        .chart-card:nth-child(2) { animation-delay: 0.6s; }
+        .chart-card:nth-child(3) { animation-delay: 0.7s; }
+
+        .chart-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .chart-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .metric-row:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .metric-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .arrow {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            margin-right: 0.25rem;
+        }
+
+        .arrow-up {
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 6px solid var(--accent-green);
+        }
+
+        .arrow-down {
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 6px solid var(--accent-red);
+        }
+
+        canvas {
+            max-height: 300px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .charts-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Insights Section */
+        .insights-section {
+            margin-top: 3rem;
+            animation: cardAppear 0.8s ease-out backwards;
+            animation-delay: 0.8s;
+        }
+
+        .insights-header {
+            margin-bottom: 2rem;
+        }
+
+        .insights-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .insights-header p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .insight-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.75rem;
+            display: flex;
+            gap: 1.25rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .insight-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--accent-green);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .insight-card.positive::before {
+            background: var(--accent-green);
+        }
+
+        .insight-card.neutral::before {
+            background: var(--accent-blue);
+        }
+
+        .insight-card.negative::before {
+            background: var(--accent-red);
+        }
+
+        .insight-card:hover {
+            transform: translateX(4px);
+            border-color: var(--accent-green);
+        }
+
+        .insight-card:hover::before {
+            opacity: 1;
+        }
+
+        .insight-icon {
+            font-size: 2rem;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .insight-content h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .insight-content p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <h1>Analytics Dashboard</h1>
+            <p>// Performance Overview — Month over Month</p>
+        </div>
+
+        <div class="kpi-grid">
+            <!-- LinkedIn Engagement -->
+            <div class="kpi-card">
+                <div class="kpi-label">LinkedIn Engagement</div>
+                <div class="kpi-value">8.2K</div>
+                <div class="kpi-change">
+                    <span class="arrow arrow-up"></span>
+                    +22% vs last month
+                </div>
+                <div class="kpi-meta">
+                    <span>Follower Growth</span>
+                    <span style="color: var(--accent-green); font-weight: 600;">+340</span>
+                </div>
+            </div>
+
+            <!-- Traffic -->
+            <div class="kpi-card">
+                <div class="kpi-label">Website Traffic</div>
+                <div class="kpi-value">6.0K</div>
+                <div class="kpi-change">
+                    <span class="arrow arrow-up"></span>
+                    +44% higher
+                </div>
+                <div class="kpi-meta">
+                    <span>Sessions</span>
+                    <span style="color: var(--text-primary); font-weight: 600;">This Month</span>
+                </div>
+            </div>
+
+            <!-- Email Open Rate -->
+            <div class="kpi-card">
+                <div class="kpi-label">Email Open Rate</div>
+                <div class="kpi-value">34.5%</div>
+                <div class="kpi-change">
+                    <span class="arrow arrow-up"></span>
+                    +6.2% vs last month
+                </div>
+                <div class="kpi-meta">
+                    <span>CTR: 4.8%</span>
+                    <span style="color: var(--accent-blue);">Unsubscribes: 0.3%</span>
+                </div>
+            </div>
+
+            <!-- SEO Keywords -->
+            <div class="kpi-card">
+                <div class="kpi-label">SEO Rankings</div>
+                <div class="kpi-value">142</div>
+                <div class="kpi-change">
+                    <span class="arrow arrow-up"></span>
+                    +18 keywords
+                </div>
+                <div class="kpi-meta">
+                    <span>Top 10 Position</span>
+                    <span style="color: var(--accent-purple); font-weight: 600;">28 KW</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="charts-section">
+            <!-- Traffic Trend -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Traffic Trend</div>
+                    <div class="chart-subtitle">Last 6 months • Sessions</div>
+                </div>
+                <canvas id="trafficChart"></canvas>
+            </div>
+
+            <!-- Email Performance -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Email Performance</div>
+                    <div class="chart-subtitle">Last 6 months • Open Rate vs CTR</div>
+                </div>
+                <canvas id="emailChart"></canvas>
+            </div>
+
+            <!-- SEO Keyword Report -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">SEO Keyword Report</div>
+                    <div class="chart-subtitle">Current month breakdown</div>
+                </div>
+                
+                <div class="metric-row">
+                    <span class="metric-label">Keywords Ranking 1-3</span>
+                    <span class="metric-value" style="color: var(--accent-green);">12</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Keywords Ranking 4-10</span>
+                    <span class="metric-value" style="color: var(--accent-blue);">28</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Keywords Ranking 11-20</span>
+                    <span class="metric-value" style="color: var(--accent-purple);">45</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Keywords Ranking 21+</span>
+                    <span class="metric-value" style="color: var(--text-secondary);">57</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- What This Means for You Section -->
+        <div class="insights-section">
+            <div class="insights-header">
+                <h2>What This Means for You</h2>
+                <p>Key insights and actionable takeaways from this month's performance</p>
+            </div>
+
+            <div class="insights-grid">
+                <div class="insight-card positive">
+                    <div class="insight-icon">📈</div>
+                    <div class="insight-content">
+                        <h3>Traffic Surge</h3>
+                        <p>Your 44% traffic increase signals strong content resonance. This momentum suggests your recent content strategy is working. Consider doubling down on the topics and channels driving this growth.</p>
+                    </div>
+                </div>
+
+                <div class="insight-card positive">
+                    <div class="insight-icon">✉️</div>
+                    <div class="insight-content">
+                        <h3>Email Engagement Up</h3>
+                        <p>Open rates of 34.5% are well above the industry average of 21%. Your subject lines and send timing are effective. The low 0.3% unsubscribe rate shows you're providing consistent value to your audience.</p>
+                    </div>
+                </div>
+
+                <div class="insight-card neutral">
+                    <div class="insight-icon">🎯</div>
+                    <div class="insight-content">
+                        <h3>SEO Opportunity</h3>
+                        <p>With 28 keywords in positions 4-10, you're on the cusp of first-page dominance. Focus optimization efforts on these near-win keywords to capture more organic traffic and improve visibility.</p>
+                    </div>
+                </div>
+
+                <div class="insight-card positive">
+                    <div class="insight-icon">💼</div>
+                    <div class="insight-content">
+                        <h3>LinkedIn Growth</h3>
+                        <p>Your 22% engagement increase and 340 new followers indicate growing brand authority. This organic reach expansion creates opportunities for partnerships and lead generation without paid promotion.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Chart.js default settings
+        Chart.defaults.color = '#8b95a8';
+        Chart.defaults.borderColor = '#2a3344';
+        Chart.defaults.font.family = "'DM Sans', sans-serif";
+
+        // Traffic Chart
+        const trafficCtx = document.getElementById('trafficChart').getContext('2d');
+        new Chart(trafficCtx, {
+            type: 'line',
+            data: {
+                labels: ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb'],
+                datasets: [{
+                    label: 'Sessions',
+                    data: [3200, 3800, 4100, 4200, 4150, 6000],
+                    borderColor: '#00d9a5',
+                    backgroundColor: 'rgba(0, 217, 165, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
+                    pointBackgroundColor: '#00d9a5',
+                    pointBorderColor: '#0a0e17',
+                    pointBorderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: '#1a202e',
+                        titleColor: '#e8edf4',
+                        bodyColor: '#e8edf4',
+                        borderColor: '#2a3344',
+                        borderWidth: 1,
+                        padding: 12,
+                        displayColors: false,
+                        callbacks: {
+                            label: function(context) {
+                                return context.parsed.y.toLocaleString() + ' sessions';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: '#2a3344',
+                            drawBorder: false
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return value >= 1000 ? (value/1000) + 'k' : value;
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false,
+                            drawBorder: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // Email Chart
+        const emailCtx = document.getElementById('emailChart').getContext('2d');
+        new Chart(emailCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb'],
+                datasets: [
+                    {
+                        label: 'Open Rate %',
+                        data: [28.3, 30.1, 31.5, 32.8, 32.4, 34.5],
+                        backgroundColor: 'rgba(78, 159, 255, 0.8)',
+                        borderColor: '#4e9fff',
+                        borderWidth: 2,
+                        borderRadius: 6
+                    },
+                    {
+                        label: 'CTR %',
+                        data: [3.2, 3.8, 4.1, 4.3, 4.5, 4.8],
+                        backgroundColor: 'rgba(167, 139, 250, 0.8)',
+                        borderColor: '#a78bfa',
+                        borderWidth: 2,
+                        borderRadius: 6
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        align: 'end',
+                        labels: {
+                            boxWidth: 12,
+                            boxHeight: 12,
+                            padding: 15,
+                            font: {
+                                size: 11,
+                                weight: '500'
+                            }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: '#1a202e',
+                        titleColor: '#e8edf4',
+                        bodyColor: '#e8edf4',
+                        borderColor: '#2a3344',
+                        borderWidth: 1,
+                        padding: 12,
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.y + '%';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: '#2a3344',
+                            drawBorder: false
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false,
+                            drawBorder: false
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
