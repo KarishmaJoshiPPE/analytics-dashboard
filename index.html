@@ -70,6 +70,30 @@
             letter-spacing: 0.5px;
         }
 
+        .section-divider {
+            margin: 3rem 0 2rem 0;
+            border-top: 2px solid var(--border);
+            padding-top: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 1.5rem;
+            background: var(--accent-blue);
+            border-radius: 2px;
+        }
+
         .kpi-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -278,7 +302,6 @@
             50% { opacity: 0.6; }
         }
 
-        /* Insights Section */
         .insights-section {
             margin-top: 3rem;
             animation: cardAppear 0.8s ease-out backwards;
@@ -379,106 +402,200 @@
             <p>// Performance Overview — Month over Month</p>
         </div>
 
+        <!-- Social Media Section -->
+        <div class="section-title">Social Media Performance</div>
         <div class="kpi-grid">
-            <!-- LinkedIn Engagement -->
+            <!-- LinkedIn Total Monthly Impressions -->
             <div class="kpi-card">
-                <div class="kpi-label">LinkedIn Engagement</div>
-                <div class="kpi-value">8.2K</div>
-                <div class="kpi-change">
-                    <span class="arrow arrow-up"></span>
-                    +22% vs last month
+                <div class="kpi-label">LinkedIn Total Impressions</div>
+                <div class="kpi-value">860</div>
+                <div class="kpi-change negative">
+                    <span class="arrow arrow-down"></span>
+                    -44.12% vs last month
                 </div>
                 <div class="kpi-meta">
-                    <span>Follower Growth</span>
-                    <span style="color: var(--accent-green); font-weight: 600;">+340</span>
+                    <span>All Posts</span>
+                    <span style="color: var(--text-secondary); font-weight: 600;">4 posts</span>
                 </div>
             </div>
 
-            <!-- Traffic -->
+            <!-- LinkedIn Followers -->
             <div class="kpi-card">
-                <div class="kpi-label">Website Traffic</div>
-                <div class="kpi-value">6.0K</div>
+                <div class="kpi-label">LinkedIn Followers</div>
+                <div class="kpi-value">410</div>
                 <div class="kpi-change">
                     <span class="arrow arrow-up"></span>
-                    +44% higher
+                    +0.99% vs last month
                 </div>
                 <div class="kpi-meta">
-                    <span>Sessions</span>
-                    <span style="color: var(--text-primary); font-weight: 600;">This Month</span>
+                    <span>Growth</span>
+                    <span style="color: var(--accent-green); font-weight: 600;">+4 followers</span>
                 </div>
             </div>
 
-            <!-- Email Open Rate -->
+            <!-- Facebook Impressions -->
             <div class="kpi-card">
-                <div class="kpi-label">Email Open Rate</div>
-                <div class="kpi-value">34.5%</div>
-                <div class="kpi-change">
-                    <span class="arrow arrow-up"></span>
-                    +6.2% vs last month
+                <div class="kpi-label">Facebook Impressions</div>
+                <div class="kpi-value">2,183</div>
+                <div class="kpi-change negative">
+                    <span class="arrow arrow-down"></span>
+                    -39.68% vs last month
                 </div>
                 <div class="kpi-meta">
-                    <span>CTR: 4.8%</span>
-                    <span style="color: var(--accent-blue);">Unsubscribes: 0.3%</span>
+                    <span>Content Views</span>
+                    <span style="color: var(--text-secondary); font-weight: 600;">4 posts</span>
                 </div>
             </div>
 
-            <!-- SEO Keywords -->
+            <!-- Facebook Followers -->
             <div class="kpi-card">
-                <div class="kpi-label">SEO Rankings</div>
-                <div class="kpi-value">142</div>
+                <div class="kpi-label">Facebook Followers</div>
+                <div class="kpi-value">1,129</div>
                 <div class="kpi-change">
                     <span class="arrow arrow-up"></span>
-                    +18 keywords
+                    +0.36% vs last month
                 </div>
                 <div class="kpi-meta">
-                    <span>Top 10 Position</span>
-                    <span style="color: var(--accent-purple); font-weight: 600;">28 KW</span>
+                    <span>Growth</span>
+                    <span style="color: var(--accent-green); font-weight: 600;">+4 followers</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Google Business Section -->
+        <div class="section-divider">
+            <div class="section-title">Local Business Performance</div>
+        </div>
+        <div class="kpi-grid">
+            <!-- Google Business Profile -->
+            <div class="kpi-card">
+                <div class="kpi-label">Google Business Impressions</div>
+                <div class="kpi-value">3,388</div>
+                <div class="kpi-change">
+                    <span class="arrow arrow-up"></span>
+                    +21.52% vs last month
+                </div>
+                <div class="kpi-meta">
+                    <span>Clicks</span>
+                    <span style="color: var(--accent-blue); font-weight: 600;">2,186 (+26.65%)</span>
+                </div>
+            </div>
+
+            <!-- Reviews -->
+            <div class="kpi-card">
+                <div class="kpi-label">Google Reviews</div>
+                <div class="kpi-value">4.96★</div>
+                <div class="kpi-change negative">
+                    <span class="arrow arrow-down"></span>
+                    -0.83% rating
+                </div>
+                <div class="kpi-meta">
+                    <span>New Reviews</span>
+                    <span style="color: var(--accent-green); font-weight: 600;">+29 (+45%)</span>
                 </div>
             </div>
         </div>
 
         <div class="charts-section">
-            <!-- Traffic Trend -->
+            <!-- Google Business Profile Performance -->
             <div class="chart-card">
                 <div class="chart-header">
-                    <div class="chart-title">Traffic Trend</div>
-                    <div class="chart-subtitle">Last 6 months • Sessions</div>
+                    <div class="chart-title">Google Business Performance</div>
+                    <div class="chart-subtitle">January 2026 • Reach & Engagement</div>
                 </div>
-                <canvas id="trafficChart"></canvas>
+                <canvas id="googleChart"></canvas>
+            </div>
+        </div>
+
+        <!-- SEO / Organic Search Section -->
+        <div class="section-divider">
+            <div class="section-title">Organic Search Performance</div>
+        </div>
+        <div class="kpi-grid">
+            <!-- Organic Clicks -->
+            <div class="kpi-card">
+                <div class="kpi-label">Organic Search Clicks</div>
+                <div class="kpi-value">1,748</div>
+                <div class="kpi-change">
+                    <span class="arrow arrow-up"></span>
+                    +12% vs last month
+                </div>
+                <div class="kpi-meta">
+                    <span>From Google Search</span>
+                    <span style="color: var(--accent-blue); font-weight: 600;">58,128 impressions</span>
+                </div>
             </div>
 
-            <!-- Email Performance -->
-            <div class="chart-card">
-                <div class="chart-header">
-                    <div class="chart-title">Email Performance</div>
-                    <div class="chart-subtitle">Last 6 months • Open Rate vs CTR</div>
+            <!-- Search Impressions -->
+            <div class="kpi-card">
+                <div class="kpi-label">Search Impressions</div>
+                <div class="kpi-value">58,128</div>
+                <div class="kpi-change">
+                    <span class="arrow arrow-up"></span>
+                    +8% vs last month
                 </div>
-                <canvas id="emailChart"></canvas>
+                <div class="kpi-meta">
+                    <span>Times Shown</span>
+                    <span style="color: var(--text-secondary); font-weight: 600;">3.01% CTR</span>
+                </div>
             </div>
 
-            <!-- SEO Keyword Report -->
+            <!-- Average CTR -->
+            <div class="kpi-card">
+                <div class="kpi-label">Average Click-Through Rate</div>
+                <div class="kpi-value">3.01%</div>
+                <div class="kpi-change">
+                    <span class="arrow arrow-up"></span>
+                    +0.3% vs last month
+                </div>
+                <div class="kpi-meta">
+                    <span>Effectiveness</span>
+                    <span style="color: var(--accent-green); font-weight: 600;">Above industry avg</span>
+                </div>
+            </div>
+
+            <!-- Average Position -->
+            <div class="kpi-card">
+                <div class="kpi-label">Average Search Position</div>
+                <div class="kpi-value">19.6</div>
+                <div class="kpi-change">
+                    <span class="arrow arrow-up"></span>
+                    Improved -2.5 positions
+                </div>
+                <div class="kpi-meta">
+                    <span>Lower is Better</span>
+                    <span style="color: var(--text-secondary); font-weight: 600;">23 in top 3</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEO Charts Section -->
+        <div class="charts-section">
+            <!-- Top Keywords Chart -->
             <div class="chart-card">
                 <div class="chart-header">
-                    <div class="chart-title">SEO Keyword Report</div>
-                    <div class="chart-subtitle">Current month breakdown</div>
+                    <div class="chart-title">Top Converting Keywords</div>
+                    <div class="chart-subtitle">December 2025 • Click Performance</div>
                 </div>
-                
-                <div class="metric-row">
-                    <span class="metric-label">Keywords Ranking 1-3</span>
-                    <span class="metric-value" style="color: var(--accent-green);">12</span>
+                <canvas id="keywordsChart"></canvas>
+            </div>
+
+            <!-- Top Landing Pages Chart -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Top Landing Pages</div>
+                    <div class="chart-subtitle">December 2025 • Clicks by Page</div>
                 </div>
-                <div class="metric-row">
-                    <span class="metric-label">Keywords Ranking 4-10</span>
-                    <span class="metric-value" style="color: var(--accent-blue);">28</span>
+                <canvas id="landingPagesChart"></canvas>
+            </div>
+
+            <!-- Device Performance Chart -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Traffic by Device</div>
+                    <div class="chart-subtitle">December 2025 • Click Distribution</div>
                 </div>
-                <div class="metric-row">
-                    <span class="metric-label">Keywords Ranking 11-20</span>
-                    <span class="metric-value" style="color: var(--accent-purple);">45</span>
-                </div>
-                <div class="metric-row">
-                    <span class="metric-label">Keywords Ranking 21+</span>
-                    <span class="metric-value" style="color: var(--text-secondary);">57</span>
-                </div>
+                <canvas id="deviceChart"></canvas>
             </div>
         </div>
 
@@ -491,34 +608,58 @@
 
             <div class="insights-grid">
                 <div class="insight-card positive">
-                    <div class="insight-icon">📈</div>
+                    <div class="insight-icon">⭐</div>
                     <div class="insight-content">
-                        <h3>Traffic Surge</h3>
-                        <p>Your 44% traffic increase signals strong content resonance. This momentum suggests your recent content strategy is working. Consider doubling down on the topics and channels driving this growth.</p>
+                        <h3>Exceptional Reviews</h3>
+                        <p>Your 4.96-star rating with 29 new reviews this month is outstanding. Reviews highlight instructors like Christina, Bre, and Angela. This strong social proof drives new business and builds trust with potential clients.</p>
                     </div>
                 </div>
 
                 <div class="insight-card positive">
-                    <div class="insight-icon">✉️</div>
+                    <div class="insight-icon">📍</div>
                     <div class="insight-content">
-                        <h3>Email Engagement Up</h3>
-                        <p>Open rates of 34.5% are well above the industry average of 21%. Your subject lines and send timing are effective. The low 0.3% unsubscribe rate shows you're providing consistent value to your audience.</p>
+                        <h3>Google Dominance</h3>
+                        <p>Google Business Profile impressions up 21.52% (3,388 total) and clicks up 26.65% (2,186). Your local visibility in Grande Prairie is strong, driving direct inquiries for safety training services.</p>
+                    </div>
+                </div>
+
+                <div class="insight-card positive">
+                    <div class="insight-icon">🔍</div>
+                    <div class="insight-content">
+                        <h3>Organic Search Growth</h3>
+                        <p>Google Search delivered 1,748 clicks from 58,128 impressions this month. Your brand keywords ('tritech safety', 'tritech grande prairie') dominate with 35-42% CTRs and top 2 positions, showing strong local brand recognition.</p>
                     </div>
                 </div>
 
                 <div class="insight-card neutral">
-                    <div class="insight-icon">🎯</div>
+                    <div class="insight-icon">📉</div>
                     <div class="insight-content">
-                        <h3>SEO Opportunity</h3>
-                        <p>With 28 keywords in positions 4-10, you're on the cusp of first-page dominance. Focus optimization efforts on these near-win keywords to capture more organic traffic and improve visibility.</p>
+                        <h3>LinkedIn Engagement Drop</h3>
+                        <p>Interactions down 89.2% despite posting. The "Last-Minute Training" post (234 impressions) performed best. Consider more posts on pain points and industry-specific safety challenges to boost engagement.</p>
                     </div>
                 </div>
 
                 <div class="insight-card positive">
-                    <div class="insight-icon">💼</div>
+                    <div class="insight-icon">🎯</div>
                     <div class="insight-content">
-                        <h3>LinkedIn Growth</h3>
-                        <p>Your 22% engagement increase and 340 new followers indicate growing brand authority. This organic reach expansion creates opportunities for partnerships and lead generation without paid promotion.</p>
+                        <h3>Industry Reach</h3>
+                        <p>78% of LinkedIn followers are in Canada, with 38% in Oil, Gas & Mining. Your content reaches the right audience. Focus on sector-specific safety topics to maintain relevance and engagement.</p>
+                    </div>
+                </div>
+
+                <div class="insight-card neutral">
+                    <div class="insight-icon">⚡</div>
+                    <div class="insight-content">
+                        <h3>Quick Win Opportunities</h3>
+                        <p>Keywords like 'h2s alive course' (317 impressions, 0 clicks, position 9.81) and 'confined space rescue' (205 impressions, 0 clicks) show demand but you're not capturing traffic. Optimize meta descriptions and improve rankings.</p>
+                    </div>
+                </div>
+
+                <div class="insight-card positive">
+                    <div class="insight-icon">📄</div>
+                    <div class="insight-content">
+                        <h3>Top Traffic Sources</h3>
+                        <p>Your homepage generates 1,028 clicks (58.8% of all traffic) with a strong 9.42% CTR. Calendar page performs well (163 clicks), but course pages like Standard First Aid need CTR optimization (only 1.52% despite 3,219 impressions).</p>
                     </div>
                 </div>
             </div>
@@ -531,25 +672,31 @@
         Chart.defaults.borderColor = '#2a3344';
         Chart.defaults.font.family = "'DM Sans', sans-serif";
 
-        // Traffic Chart
-        const trafficCtx = document.getElementById('trafficChart').getContext('2d');
-        new Chart(trafficCtx, {
-            type: 'line',
+        // Google Business Profile Chart
+        const googleCtx = document.getElementById('googleChart').getContext('2d');
+        new Chart(googleCtx, {
+            type: 'bar',
             data: {
-                labels: ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb'],
+                labels: ['Google Search', 'Google Maps', 'Website Clicks', 'Phone Clicks', 'Direction Clicks'],
                 datasets: [{
-                    label: 'Sessions',
-                    data: [3200, 3800, 4100, 4200, 4150, 6000],
-                    borderColor: '#00d9a5',
-                    backgroundColor: 'rgba(0, 217, 165, 0.1)',
-                    borderWidth: 3,
-                    fill: true,
-                    tension: 0.4,
-                    pointRadius: 5,
-                    pointHoverRadius: 7,
-                    pointBackgroundColor: '#00d9a5',
-                    pointBorderColor: '#0a0e17',
-                    pointBorderWidth: 2
+                    label: 'Engagement',
+                    data: [2853, 535, 775, 843, 568],
+                    backgroundColor: [
+                        'rgba(78, 159, 255, 0.8)',
+                        'rgba(0, 217, 165, 0.8)',
+                        'rgba(167, 139, 250, 0.8)',
+                        'rgba(255, 107, 107, 0.8)',
+                        'rgba(78, 159, 255, 0.8)'
+                    ],
+                    borderColor: [
+                        '#4e9fff',
+                        '#00d9a5',
+                        '#a78bfa',
+                        '#ff6b6b',
+                        '#4e9fff'
+                    ],
+                    borderWidth: 2,
+                    borderRadius: 6
                 }]
             },
             options: {
@@ -569,7 +716,7 @@
                         displayColors: false,
                         callbacks: {
                             label: function(context) {
-                                return context.parsed.y.toLocaleString() + ' sessions';
+                                return context.parsed.y.toLocaleString() + ' actions';
                             }
                         }
                     }
@@ -597,48 +744,28 @@
             }
         });
 
-        // Email Chart
-        const emailCtx = document.getElementById('emailChart').getContext('2d');
-        new Chart(emailCtx, {
+        // Top Keywords Chart
+        const keywordsCtx = document.getElementById('keywordsChart').getContext('2d');
+        new Chart(keywordsCtx, {
             type: 'bar',
             data: {
-                labels: ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb'],
-                datasets: [
-                    {
-                        label: 'Open Rate %',
-                        data: [28.3, 30.1, 31.5, 32.8, 32.4, 34.5],
-                        backgroundColor: 'rgba(78, 159, 255, 0.8)',
-                        borderColor: '#4e9fff',
-                        borderWidth: 2,
-                        borderRadius: 6
-                    },
-                    {
-                        label: 'CTR %',
-                        data: [3.2, 3.8, 4.1, 4.3, 4.5, 4.8],
-                        backgroundColor: 'rgba(167, 139, 250, 0.8)',
-                        borderColor: '#a78bfa',
-                        borderWidth: 2,
-                        borderRadius: 6
-                    }
-                ]
+                labels: ['tritech safety', 'tritech', 'tritech gp', 'tri tech safety', 'h2s alive gp', 'h2s course gp', 'first aid gp', 'forklift gp'],
+                datasets: [{
+                    label: 'Clicks',
+                    data: [401, 138, 86, 57, 33, 21, 14, 6],
+                    backgroundColor: 'rgba(78, 159, 255, 0.8)',
+                    borderColor: '#4e9fff',
+                    borderWidth: 2,
+                    borderRadius: 6
+                }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: true,
+                indexAxis: 'y',
                 plugins: {
                     legend: {
-                        display: true,
-                        position: 'top',
-                        align: 'end',
-                        labels: {
-                            boxWidth: 12,
-                            boxHeight: 12,
-                            padding: 15,
-                            font: {
-                                size: 11,
-                                weight: '500'
-                            }
-                        }
+                        display: false
                     },
                     tooltip: {
                         backgroundColor: '#1a202e',
@@ -647,9 +774,77 @@
                         borderColor: '#2a3344',
                         borderWidth: 1,
                         padding: 12,
+                        displayColors: false,
                         callbacks: {
                             label: function(context) {
-                                return context.dataset.label + ': ' + context.parsed.y + '%';
+                                return context.parsed.x + ' clicks';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        grid: {
+                            color: '#2a3344',
+                            drawBorder: false
+                        }
+                    },
+                    y: {
+                        grid: {
+                            display: false,
+                            drawBorder: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // Top Landing Pages Chart
+        const landingPagesCtx = document.getElementById('landingPagesChart').getContext('2d');
+        new Chart(landingPagesCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Homepage', 'Calendar', 'H2S Alive', 'Courses', 'Standard First Aid'],
+                datasets: [{
+                    label: 'Clicks',
+                    data: [1028, 163, 97, 83, 49],
+                    backgroundColor: [
+                        'rgba(78, 159, 255, 0.8)',
+                        'rgba(0, 217, 165, 0.8)',
+                        'rgba(167, 139, 250, 0.8)',
+                        'rgba(255, 107, 107, 0.8)',
+                        'rgba(255, 200, 107, 0.8)'
+                    ],
+                    borderColor: [
+                        '#4e9fff',
+                        '#00d9a5',
+                        '#a78bfa',
+                        '#ff6b6b',
+                        '#ffc86b'
+                    ],
+                    borderWidth: 2,
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: '#1a202e',
+                        titleColor: '#e8edf4',
+                        bodyColor: '#e8edf4',
+                        borderColor: '#2a3344',
+                        borderWidth: 1,
+                        padding: 12,
+                        displayColors: false,
+                        callbacks: {
+                            label: function(context) {
+                                return context.parsed.y + ' clicks';
                             }
                         }
                     }
@@ -660,17 +855,65 @@
                         grid: {
                             color: '#2a3344',
                             drawBorder: false
-                        },
-                        ticks: {
-                            callback: function(value) {
-                                return value + '%';
-                            }
                         }
                     },
                     x: {
                         grid: {
                             display: false,
                             drawBorder: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // Device Performance Chart
+        const deviceCtx = document.getElementById('deviceChart').getContext('2d');
+        new Chart(deviceCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Mobile', 'Desktop', 'Tablet'],
+                datasets: [{
+                    data: [1027, 710, 11],
+                    backgroundColor: [
+                        'rgba(78, 159, 255, 0.8)',
+                        'rgba(0, 217, 165, 0.8)',
+                        'rgba(167, 139, 250, 0.8)'
+                    ],
+                    borderColor: [
+                        '#4e9fff',
+                        '#00d9a5',
+                        '#a78bfa'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 15,
+                            usePointStyle: true,
+                            pointStyle: 'circle'
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: '#1a202e',
+                        titleColor: '#e8edf4',
+                        bodyColor: '#e8edf4',
+                        borderColor: '#2a3344',
+                        borderWidth: 1,
+                        padding: 12,
+                        displayColors: true,
+                        callbacks: {
+                            label: function(context) {
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = ((context.parsed / total) * 100).toFixed(1);
+                                return context.label + ': ' + context.parsed + ' clicks (' + percentage + '%)';
+                            }
                         }
                     }
                 }
